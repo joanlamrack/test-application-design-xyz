@@ -12,7 +12,7 @@
 
 # 3. API Design
 
-API Design will be outline per services.
+# API SPECIFICATION
 
 ## Authorization Service
 
@@ -458,7 +458,185 @@ Example
 
 ## Loan Service
 
+### POST /loans
 
+Create new loan. by default,the status is PENDING while waiting approval
+
+#### Request body 
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| user_id | string | user_id that owned the loan
+| destination_account_id | string | destination of the loan
+| amount | number | positive integer, cannot be decimal
+| tenor_period | number (positive) | tenor period in months (1-12)
+| due_date | number | due date per month (1-28)
+
+Example Request
+```json
+{
+    "user_id": "23423424",
+    "destination_account_id": "2342q34234",
+    "amount": "12000000",
+    "tenor_period": 7,
+    "due_date": 10
+}
+```
+#### Response body
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| id | string | loan id
+| user_id | string | user_id that owned the loan
+| destination_account_id | string | destination of the loan
+| amount | number | positive integer, cannot be decimal
+| tenor_period | number (positive) | tenor period in months (1-12)
+| due_date | number | due date per month (1-28)
+| status | ENUM (PENDING, REJECTED, APPROVED, ONGOING, PAID) | tenor period in months (1-12)
+
+
+Example Response
+```json
+{
+    "id": "234234234",
+    "user_id": "23423424",
+    "destination_account_id": "2342q34234",
+    "amount": "12000000",
+    "tenor_period": 7,
+    "due_date": 10,
+    "status": "PENDING"
+}
+```
+
+### GET /loans
+
+Get loan based on parameters
+
+#### Request parameter
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| user_id | string | user_id that owned the loan
+| id | string | loan id
+
+Example Request
+```text
+GET /loans?user_id=asdfasd2dsf&id=dasdfasdfs
+```
+
+#### Response body
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| id | string | loan id
+| user_id | string | user_id that owned the loan
+| destination_account_id | string | user_id that owned the loan
+| amount | number | positive integer, cannot be decimal
+| tenor_period | number (positive) | tenor period in months (1-12)
+| due_date | number | due date per month (1-28)
+| status | ENUM (PENDING, REJECTED, ONGOING, PAID) | tenor period in months (1-12)
+
+
+Example Response
+```json
+{
+    "id": "234234234",
+    "user_id": "23423424",
+    "destination_account_id": "2342q34234",
+    "amount": "12000000",
+    "tenor_period": 7,
+    "due_date": 10,
+    "status": "PENDING"
+}
+```
+
+### PATCH /loans/accept/:id
+
+change loan status to ACCEPTED if the initial status was PENDING
+
+#### Request path
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| id | string | loan id
+
+Example Request
+```text
+PATCH /loans/accept/asdfasd2dsf&id=dasdfasdfs
+```
+
+#### Response body
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| id | string | loan id
+| user_id | string | user_id that owned the loan
+| destination_account_id | string | user_id that owned the loan
+| amount | number | positive integer, cannot be decimal
+| tenor_period | number (positive) | tenor period in months (1-12)
+| due_date | number | due date per month (1-28)
+| status | ENUM (PENDING, REJECTED, ONGOING, PAID) | tenor period in months (1-12)
+
+
+Example Response
+```json
+{
+    "id": "234234234",
+    "user_id": "23423424",
+    "destination_account_id": "2342q34234",
+    "amount": "12000000",
+    "tenor_period": 7,
+    "due_date": 10,
+    "status": "ONGOING"
+}
+```
+
+### PATCH /loans/reject
+
+change loan status to REJECTED if the initial status was PENDING
+
+#### Request path
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| id | string | loan id
+
+Example Request
+```text
+PATCH /loans/reject/asdfasd2dsf&id=dasdfasdfs
+```
+
+#### Response body
+| Field Name| Type |Description |
+| ----------- | ----------- | ---------|
+| id | string | loan id
+| user_id | string | user_id that owned the loan
+| destination_account_id | string | user_id that owned the loan
+| amount | number | positive integer, cannot be decimal
+| tenor_period | number (positive) | tenor period in months (1-12)
+| due_date | number | due date per month (1-28)
+| status | ENUM (PENDING, REJECTED, ONGOING, PAID) | tenor period in months (1-12)
+
+
+Example Response
+```json
+{
+    "id": "234234234",
+    "user_id": "23423424",
+    "destination_account_id": "2342q34234",
+    "amount": "12000000",
+    "tenor_period": 7,
+    "due_date": 10,
+    "status": "REJECTED"
+}
+```
+
+### POST /loanpayments
+
+pay loan, only can be done if status of the loan is ONGOING
+
+#### Request body
+| Field Name | Type |Description |
+| ----------- | ----------- | ---------|
+| loan_id | string | the original loan  |
+| amount | number | amount of the payment  |
+| paid_date | date | date when paid |
+| expected_date | date | date of last payment
+| payment_method | ENUM | payment method
+| bank_code | string | bank code 
 
 ## 4. Screen Flow Detail
 
