@@ -25,6 +25,12 @@ JWT authorization service.
 ## Approval Service
 Service responsible for keeping approval requests from both new account creation and new loans.
 
+The status transition is as follows:
+
+![Solution](ApprovalSystemStatDiagram.png)
+
+Newly created approval will be PENDING. Once the details has been evalutad, then status could change into REJECTED or ACCEPTED
+
 For the sake of simplicity, this service is a oversimplified service for marking requests
 
 APIs as follows:
