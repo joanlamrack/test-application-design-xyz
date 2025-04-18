@@ -26,6 +26,8 @@ User service holds all account's details during registration and during sign in,
 
 create new user record
 
+![Solution](AccountCreation.png)
+
 #### Request body
 
 | Field Name| Type |Description |
@@ -462,6 +464,8 @@ Example
 
 Create new loan. by default,the status is PENDING while waiting approval
 
+![Solution](LoanCreation.png)
+
 #### Request body 
 | Field Name| Type |Description |
 | ----------- | ----------- | ---------|
@@ -627,6 +631,8 @@ Example Response
 ### POST /loanpayments
 
 pay loan, only can be done if status of the loan is ONGOING
+
+![Solution](LoanPayment.png)
 
 #### Request body
 | Field Name | Type |Description |
